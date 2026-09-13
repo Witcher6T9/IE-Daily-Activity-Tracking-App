@@ -7,7 +7,6 @@ import {
   X,
   Calendar,
   Save,
-  CheckCheck,
   RotateCcw
 } from 'lucide-react';
 
@@ -51,15 +50,6 @@ export const ChecklistView: React.FC<ChecklistViewProps> = ({
     setSaveStatus('Auto-saved ✓');
     const t = setTimeout(() => setSaveStatus(''), 2000);
     return () => clearTimeout(t);
-  };
-
-  const markAllYes = () => {
-    if (!canEdit) return;
-    const next = Array(12).fill('yes') as TaskStatus[];
-    setTasks(next);
-    onSaveChecklist(selectedDate, next);
-    setSaveStatus('All marked Yes ✓');
-    setTimeout(() => setSaveStatus(''), 2000);
   };
 
   const resetAll = () => {
@@ -115,22 +105,13 @@ export const ChecklistView: React.FC<ChecklistViewProps> = ({
         </button>
         <div className="flex items-center gap-2">
           {canEdit && (
-            <>
-              <button
-                onClick={markAllYes}
-                className="text-xs font-semibold px-2.5 py-1.5 rounded-lg bg-emerald-50 text-emerald-700 hover:bg-emerald-100 transition flex items-center gap-1 border border-emerald-200"
-              >
-                <CheckCheck className="w-3.5 h-3.5" />
-                All Yes
-              </button>
-              <button
-                onClick={resetAll}
-                className="text-xs font-semibold px-2 py-1.5 rounded-lg text-slate-500 hover:bg-slate-100 transition flex items-center gap-1"
-                title="Reset checklist"
-              >
-                <RotateCcw className="w-3.5 h-3.5" />
-              </button>
-            </>
+            <button
+              onClick={resetAll}
+              className="text-xs font-semibold px-2 py-1.5 rounded-lg text-slate-500 hover:bg-slate-100 transition flex items-center gap-1"
+              title="Reset checklist"
+            >
+              <RotateCcw className="w-3.5 h-3.5" />
+            </button>
           )}
         </div>
       </div>

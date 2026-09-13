@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { AppStore, DEFAULT_DASHBOARD_LAYOUT, PageId } from '../types';
 import { exportAllDataXLSX, exportMonthlySummaryCSV, exportDailyExecutiveBriefing } from '../utils/exportUtils';
 import { DashboardView } from './DashboardView';
+import { RecordedLineEntriesSection } from './RecordedLineEntriesSection';
 import {
   ArrowLeft,
   FileSpreadsheet,
@@ -20,9 +21,17 @@ interface ReportsViewProps {
   store: AppStore;
   today: string;
   onNavigate: (page: PageId) => void;
+  canDelete: boolean;
+  onDeleteLineEntry: (id: number) => void;
 }
 
-export const ReportsView: React.FC<ReportsViewProps> = ({ store, today, onNavigate }) => {
+export const ReportsView: React.FC<ReportsViewProps> = ({
+  store,
+  today,
+  onNavigate,
+  canDelete,
+  onDeleteLineEntry
+}) => {
   const [selectedMonth, setSelectedMonth] = useState<string>(today.slice(0, 7));
 
   // High-level plant statistics
@@ -219,6 +228,12 @@ export const ReportsView: React.FC<ReportsViewProps> = ({ store, today, onNaviga
           </div>
         </div>
       </div>
+
+      <RecordedLineEntriesSection
+        store={store}
+        canDelete={canDelete}
+        onDeleteLineEntry={onDeleteLineEntry}
+      />
     </div>
   );
 };
