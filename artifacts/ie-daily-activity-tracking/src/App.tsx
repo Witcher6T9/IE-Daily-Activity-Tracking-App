@@ -486,6 +486,7 @@ export default function App() {
             uiDensity={uiDensity}
             dashLayout={dashLayout}
             onNavigate={setCurrentPage}
+            hideReportSections
             canEdit={canEdit}
             autoUpdate={autoUpdate}
             onToggleAutoUpdate={handleToggleAutoUpdate}

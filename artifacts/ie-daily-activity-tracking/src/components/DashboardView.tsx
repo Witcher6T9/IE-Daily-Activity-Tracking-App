@@ -30,6 +30,8 @@ interface DashboardViewProps {
   uiDensity: UiDensity;
   dashLayout: DashboardLayoutSettings;
   onNavigate: (page: PageId) => void;
+  reportsOnly?: boolean;
+  hideReportSections?: boolean;
   canEdit: boolean;
   autoUpdate?: AutoUpdateSettings;
   onToggleAutoUpdate?: () => void;
@@ -44,6 +46,8 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
   uiDensity,
   dashLayout,
   onNavigate,
+  reportsOnly = false,
+  hideReportSections = false,
   autoUpdate,
   onToggleAutoUpdate,
   onManualSync,
@@ -303,7 +307,8 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
   return (
     <div className={`max-w-6xl mx-auto ${uiDensity === 'compact' ? 'p-4' : 'p-6 sm:p-8'}`}>
       {/* Top Welcome Title */}
-      <div className={`flex flex-col sm:flex-row sm:items-center justify-between gap-2 ${uiDensity === 'compact' ? 'mb-4' : 'mb-6'}`}>
+      {!reportsOnly && (
+        <div className={`flex flex-col sm:flex-row sm:items-center justify-between gap-2 ${uiDensity === 'compact' ? 'mb-4' : 'mb-6'}`}>
         <div>
           <div className="text-xs font-semibold uppercase tracking-wider text-slate-400">
             {formatDateDisplay(today)} • Operational Control
@@ -315,10 +320,12 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
             {store.profile.jobTitle || 'IE Management'} {store.profile.name ? `• ${store.profile.name}` : ''}
           </p>
         </div>
-      </div>
+        </div>
+      )}
 
       {/* Live Operational Status & Auto-Update Bar */}
-      <div className="animate-tile-in mb-5 rounded-2xl bg-white border border-slate-200/90 p-3 sm:p-4 shadow-2xs flex flex-wrap items-center justify-between gap-3 transition">
+      {!reportsOnly && (
+        <div className="animate-tile-in mb-5 rounded-2xl bg-white border border-slate-200/90 p-3 sm:p-4 shadow-2xs flex flex-wrap items-center justify-between gap-3 transition">
         <div className="flex items-center gap-3">
           <div className="flex items-center gap-2 px-2.5 py-1 rounded-xl bg-slate-50 border border-slate-200/80 text-xs font-semibold text-slate-700">
             <span className="relative flex h-2.5 w-2.5">
@@ -377,10 +384,11 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
             </button>
           )}
         </div>
-      </div>
+        </div>
+      )}
 
       {/* Reminder Banner */}
-      {showReminder && (
+      {!reportsOnly && showReminder && (
         <div className="animate-tile-in tile-delay-1 mb-5 rounded-2xl bg-amber-50 border border-amber-200/80 px-4 py-3 flex items-start gap-3 shadow-2xs">
           <div className="w-8 h-8 rounded-xl bg-amber-100 text-amber-700 flex items-center justify-center shrink-0 mt-0.5">
             <AlertTriangle className="w-4 h-4" />
@@ -401,7 +409,7 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
       )}
 
       {/* Compliance Hero Card */}
-      {safeDashLayout.showHero && (
+      {!reportsOnly && safeDashLayout.showHero && (
         <div
           className={`animate-tile-in tile-delay-1 relative overflow-hidden rounded-3xl text-white shadow-xl ${
             uiDensity === 'compact' ? 'p-5 mb-5' : 'p-7 mb-7'
@@ -488,7 +496,7 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
       )}
 
       {/* Task Status Tiles */}
-      {safeDashLayout.showStats && (
+      {!reportsOnly && safeDashLayout.showStats && (
         <div
           className={`grid grid-cols-3 ${uiDensity === 'compact' ? 'gap-3 mb-5' : 'gap-4 mb-7'}`}
         >
@@ -552,7 +560,7 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
       )}
 
       {/* Quick Actions */}
-      {safeDashLayout.showQuickActions && (
+      {!reportsOnly && safeDashLayout.showQuickActions && (
         <div className="mb-8">
           <div className="flex items-center justify-between mb-3">
             <div className="text-sm font-bold uppercase tracking-wider text-slate-500">Core Modules &amp; Roles</div>
@@ -631,13 +639,15 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
       )}
 
       {/* Production Efficiency Long-Term Trends Chart */}
-      <LineEfficiencyTrendChart
-        lineEntries={store.lineEntries}
-        targetEfficiency={80}
-      />
+      {!hideReportSections && (
+        <LineEfficiencyTrendChart
+          lineEntries={store.lineEntries}
+          targetEfficiency={80}
+        />
+      )}
 
       {/* Line-wise Absents & Balancing % */}
-      {safeDashLayout.showAbsents && (
+      {!reportsOnly && safeDashLayout.showAbsents && (
         <div className="mb-8">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1 mb-4">
             <div>
@@ -779,7 +789,7 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
       )}
 
       {/* Line Balancing Graph Status Matrix */}
-      {safeDashLayout.showBalancingGraph && (
+      {!reportsOnly && safeDashLayout.showBalancingGraph && (
         <div className="mb-8">
           <div className="flex items-center justify-between mb-3">
             <div>
@@ -859,7 +869,7 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
       )}
 
       {/* Order • Input / Output • WIP Matrix */}
-      {safeDashLayout.showIO && (
+      {!hideReportSections && safeDashLayout.showIO && (
         <div className="mb-8">
           <div className="flex items-center justify-between mb-3">
             <div>
@@ -1054,7 +1064,7 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
       )}
 
       {/* Upcoming Styles Radar (within 10 days) */}
-      {safeDashLayout.showUpcoming && (
+      {!reportsOnly && safeDashLayout.showUpcoming && (
         <div className="mb-8">
           <div className="flex items-center justify-between mb-3">
             <div>
@@ -1115,7 +1125,7 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
       )}
 
       {/* Today's Line Entries with Quick Track Exports */}
-      <div className="mb-8">
+      {!hideReportSections && <div className="mb-8">
         <div className="flex items-center justify-between mb-4">
           <div>
             <h2 className="text-lg font-bold text-slate-900">Today's Line Production Records</h2>
@@ -1260,7 +1270,7 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
             })}
           </div>
         )}
-      </div>
+      </div>}
     </div>
   );
 };

@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
-import { AppStore, PageId } from '../types';
+import { AppStore, DEFAULT_DASHBOARD_LAYOUT, PageId } from '../types';
 import { exportAllDataXLSX, exportMonthlySummaryCSV, exportDailyExecutiveBriefing } from '../utils/exportUtils';
+import { DashboardView } from './DashboardView';
 import {
   ArrowLeft,
   FileSpreadsheet,
@@ -63,6 +64,27 @@ export const ReportsView: React.FC<ReportsViewProps> = ({ store, today, onNaviga
         <p className="text-slate-500 text-sm mt-0.5">
           Generate production audits, manpower tracking reports, and comprehensive Excel workbooks.
         </p>
+      </div>
+
+      <div className="mb-8">
+        <div className="mb-4">
+          <div className="text-xs font-bold uppercase tracking-[0.18em] text-teal-700">Operational analytics</div>
+          <h2 className="text-xl sm:text-2xl font-black text-slate-900 tracking-tight mt-1">
+            Production efficiency and line flow
+          </h2>
+          <p className="text-sm text-slate-500 mt-1">
+            Review long-term efficiency, order flow, WIP, and today’s production records in one place.
+          </p>
+        </div>
+        <DashboardView
+          store={store}
+          today={today}
+          uiDensity="normal"
+          dashLayout={{ ...DEFAULT_DASHBOARD_LAYOUT, showAbsents: false, showBalancingGraph: false, showUpcoming: false }}
+          onNavigate={onNavigate}
+          reportsOnly
+          canEdit={false}
+        />
       </div>
 
       {/* Individual IE & Roles Monthly KPI Reports Spotlight */}
