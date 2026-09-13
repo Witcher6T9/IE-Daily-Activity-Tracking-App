@@ -1,6 +1,6 @@
-# [Project name]
+# IE Daily Activity Tracking
 
-_Replace the heading above with the project's name, and this line with one sentence describing what this app does for users._
+An industrial engineering control-room app for garment manufacturing teams to track daily activity, line data, manpower, bottlenecks, and factory KPIs.
 
 ## Run & Operate
 
@@ -22,23 +22,31 @@ _Replace the heading above with the project's name, and this line with one sente
 
 ## Where things live
 
-_Populate as you build — short repo map plus pointers to the source-of-truth file for DB schema, API contracts, theme files, etc._
+- `artifacts/ie-daily-activity-tracking/` — the runnable React/Vite app.
+- `artifacts/ie-daily-activity-tracking/src/App.tsx` — application state, navigation, and local persistence.
+- `artifacts/ie-daily-activity-tracking/src/components/` — dashboard, checklist, reports, settings, line data, and role-management screens.
+- `artifacts/ie-daily-activity-tracking/src/data/initialData.ts` — sample factory data used for the first load.
+- `artifacts/ie-daily-activity-tracking/src/index.css` — shared visual theme and responsive styling.
+- `lib/api-spec/openapi.yaml` — shared API contract for the separate API service; this app currently uses local browser storage.
 
 ## Architecture decisions
 
-_Populate as you build — non-obvious choices a reader couldn't infer from the code (3-5 bullets)._
+- The imported app remains frontend-first and stores its operational state in browser `localStorage` for now.
+- The app is registered at the root preview path so the dashboard opens directly.
+- The shared API service remains separate until a server-backed sync requirement is defined.
 
 ## Product
 
-_Describe the high-level user-facing capabilities of this app once they exist._
+The app provides a daily IE dashboard, checklist workflow, line data collection, monthly tracking, KPI reporting, role and tier controls, scheduled tasks, notifications, and local data management for garment manufacturing operations.
 
 ## User preferences
 
-_Populate as you build — explicit user instructions worth remembering across sessions._
+The user wants to open this imported app for ongoing additions and fixes.
 
 ## Gotchas
 
-_Populate as you build — sharp edges, "always run X before Y" rules._
+- Preview uses the managed artifact workflow and supplies `PORT` and `BASE_PATH` to Vite.
+- Vite dependency optimization targets `esnext` because several chart and icon dependencies use syntax that fails under the default older optimize target.
 
 ## Pointers
 

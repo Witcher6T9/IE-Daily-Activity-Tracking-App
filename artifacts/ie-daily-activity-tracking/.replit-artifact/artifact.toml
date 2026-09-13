@@ -1,0 +1,28 @@
+kind = "web"
+previewPath = "/"
+title = "IE Daily Activity Tracking"
+description = "An industrial engineering operations app for garment manufacturing teams to track daily activity, line balance, manpower, bottlenecks, and factory KPIs."
+version = "1.0.0"
+id = "artifacts/ie-daily-activity-tracking"
+router = "path"
+
+[[services]]
+name = "web"
+paths = [ "/" ]
+localPort = 18598
+
+[services.development]
+run = "pnpm --filter @workspace/ie-daily-activity-tracking run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/ie-daily-activity-tracking", "run", "build" ]
+serve = "static"
+publicDir = "artifacts/ie-daily-activity-tracking/dist/public"
+
+[[services.production.rewrites]]
+from = "/*"
+to = "/index.html"
+
+[services.env]
+PORT = "18598"
+BASE_PATH = "/"

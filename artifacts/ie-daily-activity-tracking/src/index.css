@@ -1,0 +1,236 @@
+@import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;500;600;700&family=DM+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap');
+@import "tailwindcss";
+
+:root {
+  --background: 42 27% 96%;
+  --foreground: 197 28% 16%;
+  --card: 42 33% 99%;
+  --card-foreground: 197 28% 16%;
+  --popover: 42 33% 99%;
+  --popover-foreground: 197 28% 16%;
+  --primary: 188 71% 31%;
+  --primary-foreground: 42 33% 99%;
+  --secondary: 39 54% 89%;
+  --secondary-foreground: 197 28% 16%;
+  --muted: 42 18% 91%;
+  --muted-foreground: 198 12% 43%;
+  --accent: 28 84% 57%;
+  --accent-foreground: 197 28% 16%;
+  --destructive: 4 68% 48%;
+  --destructive-foreground: 42 33% 99%;
+  --border: 38 22% 83%;
+  --input: 38 22% 83%;
+  --ring: 188 71% 31%;
+  --radius: 0.7rem;
+  --font-body: 'DM Sans', sans-serif;
+  --font-display: 'Barlow Condensed', sans-serif;
+  --font-mono: 'IBM Plex Mono', monospace;
+  --ink-deep: #17343a;
+  --ink-soft: #527078;
+  --paper: #fbfaf6;
+  --paper-warm: #f1eee6;
+  --teal: #176f78;
+  --teal-dark: #11535b;
+  --orange: #e6813e;
+  --gold: #d5a33e;
+  --line: #d9d2c2;
+}
+
+.dark,
+.theme-dark {
+  --background: 198 30% 12%;
+  --foreground: 42 27% 94%;
+  --card: 198 27% 16%;
+  --card-foreground: 42 27% 94%;
+  --popover: 198 27% 16%;
+  --popover-foreground: 42 27% 94%;
+  --primary: 183 51% 57%;
+  --primary-foreground: 198 30% 12%;
+  --secondary: 198 24% 23%;
+  --secondary-foreground: 42 27% 94%;
+  --muted: 198 24% 21%;
+  --muted-foreground: 198 14% 69%;
+  --accent: 28 80% 58%;
+  --accent-foreground: 198 30% 12%;
+  --border: 198 18% 29%;
+  --input: 198 18% 29%;
+  --ring: 183 51% 57%;
+  --ink-deep: #ecf0e8;
+  --ink-soft: #a7bcc0;
+  --paper: #18353b;
+  --paper-warm: #203e43;
+  --line: #365259;
+}
+
+.theme-forest {
+  --primary: 151 45% 28%;
+  --ring: 151 45% 28%;
+  --accent: 43 76% 52%;
+}
+
+.theme-sunset {
+  --primary: 14 65% 42%;
+  --ring: 14 65% 42%;
+  --accent: 43 78% 53%;
+}
+
+.theme-industrial {
+  --primary: 198 18% 31%;
+  --ring: 198 18% 31%;
+  --accent: 27 80% 52%;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  background: hsl(var(--background));
+  color-scheme: light;
+}
+
+html.theme-dark,
+html.theme-dark body {
+  color-scheme: dark;
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  min-height: 100dvh;
+  background:
+    radial-gradient(circle at 83% -10%, rgba(230, 129, 62, 0.11), transparent 27rem),
+    linear-gradient(180deg, hsl(var(--background)), hsl(var(--background)));
+  color: hsl(var(--foreground));
+  font-family: var(--font-body);
+  font-size: 14px;
+  -webkit-font-smoothing: antialiased;
+}
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+}
+
+button {
+  transition: transform 150ms ease, background-color 150ms ease, border-color 150ms ease, color 150ms ease, opacity 150ms ease;
+}
+
+button:active:not(:disabled) {
+  transform: translateY(1px);
+}
+
+button:disabled {
+  cursor: not-allowed;
+  opacity: 0.52;
+}
+
+::selection {
+  background: rgba(230, 129, 62, 0.25);
+  color: var(--ink-deep);
+}
+
+/* Keep dense plant data calm and scannable. */
+.font-display {
+  font-family: var(--font-display);
+}
+
+.font-mono {
+  font-family: var(--font-mono);
+}
+
+.app-shell {
+  background-color: hsl(var(--background));
+}
+
+.app-shell .bg-white,
+.app-shell .bg-white\/90,
+.app-shell .bg-white\/95 {
+  background-color: var(--paper) !important;
+}
+
+.app-shell .bg-slate-50,
+.app-shell .bg-slate-50\/80,
+.app-shell .bg-slate-50\/90 {
+  background-color: var(--paper-warm) !important;
+}
+
+.app-shell .text-blue-600,
+.app-shell .text-blue-700,
+.app-shell .text-blue-800,
+.app-shell .text-indigo-600,
+.app-shell .text-indigo-700 {
+  color: var(--teal) !important;
+}
+
+.app-shell .bg-blue-600,
+.app-shell .bg-blue-700 {
+  background-color: var(--teal) !important;
+}
+
+.app-shell .bg-blue-50,
+.app-shell .bg-blue-50\/50,
+.app-shell .bg-blue-50\/60,
+.app-shell .bg-indigo-50 {
+  background-color: #e6f0ee !important;
+}
+
+.app-shell .border-blue-200,
+.app-shell .border-blue-300,
+.app-shell .border-blue-400 {
+  border-color: #9fc5c3 !important;
+}
+
+.app-shell .ring-blue-100,
+.app-shell .ring-blue-500 {
+  --tw-ring-color: rgba(23, 111, 120, 0.22) !important;
+}
+
+.app-shell .from-blue-50\/50 {
+  --tw-gradient-from: #e6f0ee !important;
+}
+
+.surface-grid {
+  background-image: linear-gradient(to right, rgba(23, 52, 58, 0.035) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(23, 52, 58, 0.035) 1px, transparent 1px);
+  background-size: 28px 28px;
+}
+
+.noise-overlay::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  pointer-events: none;
+  opacity: 0.025;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.45'/%3E%3C/svg%3E");
+}
+
+@keyframes rise-in {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes pulse-soft {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.55; }
+}
+
+.animate-rise-in {
+  animation: rise-in 420ms ease-out both;
+}
+
+.animate-pulse-soft {
+  animation: pulse-soft 2.4s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 1ms !important;
+    transition-duration: 1ms !important;
+  }
+}
