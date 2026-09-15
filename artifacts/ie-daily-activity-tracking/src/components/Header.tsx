@@ -1,4 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
+import { useClerk, useUser } from '@clerk/react';
 import { PageId, UiTheme, AutoUpdateSettings, CustomRoleDefinition, RolePerson, TierDefinition, GoogleUserSession, CloudSyncState } from '../types';
 import {
   Settings,
@@ -98,6 +99,8 @@ export const Header: React.FC<HeaderProps> = ({
   cloudSyncState,
   onOpenCloudSync
 }) => {
+  const { user, isLoaded } = useUser();
+  const { signOut } = useClerk();
   const [showThemeMenu, setShowThemeMenu] = useState(false);
   const themeMenuRef = useRef<HTMLDivElement>(null);
 
@@ -325,42 +328,34 @@ export const Header: React.FC<HeaderProps> = ({
             </button>
           )}
 
-          {/* 2. USER ACCOUNT & LOGIN OPTIONS BUTTON */}
-          {onOpenGoogleAuth && (
-            <div>
-              {googleUser?.isSignedIn ? (
-                 <button
-                  onClick={onOpenGoogleAuth}
-                  title={`Signed in as ${googleUser.name} (${googleUser.email || googleUser.authProvider || 'Active'}) - Click to manage user session`}
-                   className="h-9 px-2.5 rounded-xl border border-[#d9d2c2] bg-[#fbfaf6] hover:bg-[#e6f0ee] text-slate-700 hover:border-[#8bb7b7] transition flex items-center gap-2 shadow-2xs"
-                >
-                  <div className="relative">
-                     <div className="w-5 h-5 rounded-full bg-[#dceceb] text-[#176f78] border border-[#b8d4d1] flex items-center justify-center text-[9px] font-black">
-                       {(googleUser.name || 'IE').split(' ').map(part => part[0]).slice(0, 2).join('')}
-                     </div>
-                    <div className="absolute -bottom-0.5 -right-0.5 w-2 h-2 rounded-full bg-emerald-500 ring-1 ring-white" />
-                  </div>
-                  <div className="hidden lg:flex flex-col text-left">
-                    <span className="text-[11px] font-bold text-slate-800 leading-none truncate max-w-[110px]">
-                      {googleUser.name}
-                    </span>
-                    <span className="text-[9px] text-slate-400 font-mono leading-tight truncate max-w-[110px]">
-                      {googleUser.authProvider ? `${googleUser.authProvider.toUpperCase()}` : (googleUser.email || 'Online')}
-                    </span>
-                  </div>
-                </button>
-              ) : (
-                <button
-                  onClick={onOpenGoogleAuth}
-                  title="User Log In Options (Google, Corporate SSO, Floor PIN, Demo Mode)"
-                   className="h-9 px-3 rounded-xl border border-[#d9d2c2] bg-[#fbfaf6] hover:bg-[#f1eee6] text-slate-700 hover:text-slate-900 transition flex items-center gap-2 shadow-2xs text-xs font-bold"
-                >
-                   <User className="w-3.5 h-3.5 text-[#176f78]" />
-                  <span className="hidden sm:inline">Log In Options</span>
-                  <span className="sm:hidden">Log In</span>
-                </button>
-              )}
-            </div>
+          {/* Clerk account control */}
+          {isLoaded && user && (
+            <button
+              onClick={() => signOut({ redirectUrl: import.meta.env.BASE_URL || '/' })}
+              title={`Signed in as ${user.fullName || user.primaryEmailAddress?.emailAddress || 'Account'} — click to sign out`}
+              className="h-9 px-2.5 rounded-xl border border-[#d9d2c2] bg-[#fbfaf6] hover:bg-[#e6f0ee] text-slate-700 hover:border-[#8bb7b7] transition flex items-center gap-2 shadow-2xs"
+            >
+              <div className="relative">
+                <div className="w-5 h-5 rounded-full bg-[#dceceb] text-[#176f78] border border-[#b8d4d1] flex items-center justify-center text-[9px] font-black">
+                  {(user.firstName || user.primaryEmailAddress?.emailAddress || 'IE')
+                    .split(' ')
+                    .map(part => part[0])
+                    .slice(0, 2)
+                    .join('')
+                    .toUpperCase()}
+                </div>
+                <div className="absolute -bottom-0.5 -right-0.5 w-2 h-2 rounded-full bg-emerald-500 ring-1 ring-white" />
+              </div>
+              <div className="hidden lg:flex flex-col text-left">
+                <span className="text-[11px] font-bold text-slate-800 leading-none truncate max-w-[110px]">
+                  {user.fullName || user.firstName || 'Account'}
+                </span>
+                <span className="text-[9px] text-slate-400 font-mono leading-tight">
+                  Sign out
+                </span>
+              </div>
+              <LogOut className="w-3.5 h-3.5 text-[#176f78]" />
+            </button>
           )}
 
           {/* Settings button */}

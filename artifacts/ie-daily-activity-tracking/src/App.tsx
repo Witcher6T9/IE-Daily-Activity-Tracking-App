@@ -1,4 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { ClerkProvider, SignIn, SignUp, useAuth } from '@clerk/react';
+import { Redirect, Route, Router as WouterRouter, Switch, useLocation } from 'wouter';
+import { publishableKeyFromHost } from '@clerk/react/internal';
+import { shadcn } from '@clerk/themes';
 import {
   AppStore,
   PageId,
@@ -38,6 +42,7 @@ import { TierCustomizerModal } from './components/TierCustomizerModal';
 import { CreateCustomRoleModal } from './components/CreateCustomRoleModal';
 import { TodoScheduleView } from './components/TodoScheduleView';
 import { DatabaseManagerView } from './components/DatabaseManagerView';
+import { AuthLandingPage } from './components/AuthLandingPage';
 import {
   requestNotificationPermission,
   sendWebPushNotification,
@@ -46,7 +51,109 @@ import {
 
 const STORAGE_KEY = 'ie_daily_activity_store_v2';
 
-export default function App() {
+const clerkPubKey = publishableKeyFromHost(
+  window.location.hostname,
+  import.meta.env.VITE_CLERK_PUBLISHABLE_KEY,
+);
+const clerkProxyUrl = import.meta.env.VITE_CLERK_PROXY_URL;
+const basePath = import.meta.env.BASE_URL.replace(/\/$/, '');
+
+if (!clerkPubKey) {
+  throw new Error('Missing VITE_CLERK_PUBLISHABLE_KEY in environment.');
+}
+
+const clerkAppearance = {
+  theme: shadcn,
+  cssLayerName: 'clerk',
+  options: {
+    logoPlacement: 'inside' as const,
+    logoLinkUrl: basePath || '/',
+    logoImageUrl: `${window.location.origin}${basePath}/logo.svg`,
+  },
+  variables: {
+    colorPrimary: '#176f78',
+    colorForeground: '#17343a',
+    colorMutedForeground: '#527078',
+    colorDanger: '#b42318',
+    colorBackground: '#fbfaf6',
+    colorInput: '#ffffff',
+    colorInputForeground: '#17343a',
+    colorNeutral: '#d9d2c2',
+    fontFamily: "'DM Sans', sans-serif",
+    borderRadius: '0.75rem',
+  },
+  elements: {
+    rootBox: 'w-full flex justify-center',
+    cardBox: 'bg-[#fbfaf6] rounded-2xl w-[440px] max-w-full overflow-hidden shadow-xl',
+    card: '!shadow-none !border-0 !bg-transparent !rounded-none',
+    footer: '!shadow-none !border-0 !bg-transparent !rounded-none',
+    headerTitle: 'text-[#17343a] font-bold',
+    headerSubtitle: 'text-[#527078]',
+    socialButtonsBlockButtonText: 'text-[#17343a] font-semibold',
+    formFieldLabel: 'text-[#17343a] font-semibold',
+    footerActionLink: 'text-[#176f78] font-bold',
+    footerActionText: 'text-[#527078]',
+    dividerText: 'text-[#527078]',
+    identityPreviewEditButton: 'text-[#176f78]',
+    formFieldSuccessText: 'text-emerald-700',
+    alertText: 'text-rose-700',
+    logoBox: 'h-12',
+    logoImage: 'max-h-12 w-auto',
+    socialButtonsBlockButton: 'border-[#d9d2c2] bg-white hover:bg-[#e6f0ee]',
+    formButtonPrimary: 'bg-[#176f78] hover:bg-[#11535b] text-white',
+    formFieldInput: 'border-[#d9d2c2] bg-white text-[#17343a]',
+    footerAction: 'bg-transparent',
+    dividerLine: 'bg-[#d9d2c2]',
+    alert: 'border-rose-200 bg-rose-50',
+    otpCodeFieldInput: 'border-[#d9d2c2] bg-white text-[#17343a]',
+    formFieldRow: 'text-[#17343a]',
+    main: 'bg-transparent',
+  },
+};
+
+function AuthLoadingScreen() {
+  return (
+    <div className="flex min-h-[100dvh] items-center justify-center bg-[#fbfaf6] px-5">
+      <div className="text-center">
+        <img src={`${basePath}/logo.svg`} alt="IE Daily Control" className="mx-auto h-12 w-auto" />
+        <p className="mt-4 text-sm font-semibold text-[#527078]">Loading secure workspace…</p>
+      </div>
+    </div>
+  );
+}
+
+function SignInPage() {
+  return (
+    <div className="flex min-h-[100dvh] items-center justify-center bg-[#f1eee6] px-4 py-8">
+      <SignIn routing="path" path={`${basePath}/sign-in`} signUpUrl={`${basePath}/sign-up`} />
+    </div>
+  );
+}
+
+function SignUpPage() {
+  return (
+    <div className="flex min-h-[100dvh] items-center justify-center bg-[#f1eee6] px-4 py-8">
+      <SignUp routing="path" path={`${basePath}/sign-up`} signInUrl={`${basePath}/sign-in`} />
+    </div>
+  );
+}
+
+function HomeRedirect() {
+  const [, setLocation] = useLocation();
+  const { isLoaded, isSignedIn } = useAuth();
+
+  if (!isLoaded) return <AuthLoadingScreen />;
+  if (isSignedIn) return <Redirect to="/app" />;
+
+  return (
+    <AuthLandingPage
+      onSignIn={() => setLocation('/sign-in')}
+      onSignUp={() => setLocation('/sign-up')}
+    />
+  );
+}
+
+function AuthenticatedApp() {
   // Load initial store from localStorage or default
   const [store, setStore] = useState<AppStore>(() => {
     try {
@@ -537,9 +644,7 @@ export default function App() {
             store={store}
             today={todayISO}
             canEdit={canEdit}
-            canDelete={canDelete}
             onSaveLineEntry={handleSaveLineEntry}
-            onDeleteLineEntry={handleDeleteLineEntry}
             onNavigate={setCurrentPage}
           />
         )}
@@ -561,6 +666,8 @@ export default function App() {
             store={store}
             today={todayISO}
             onNavigate={setCurrentPage}
+            canDelete={canDelete}
+            onDeleteLineEntry={handleDeleteLineEntry}
           />
         )}
 
@@ -680,5 +787,64 @@ export default function App() {
         />
       )}
     </div>
+  );
+}
+
+function AuthenticatedRoute() {
+  const { isLoaded, isSignedIn } = useAuth();
+
+  if (!isLoaded) return <AuthLoadingScreen />;
+  if (!isSignedIn) return <Redirect to="/" />;
+
+  return <AuthenticatedApp />;
+}
+
+function ClerkProviderWithRoutes() {
+  const [, setLocation] = useLocation();
+
+  const stripBase = (path: string) =>
+    basePath && path.startsWith(basePath) ? path.slice(basePath.length) || '/' : path;
+
+  return (
+    <ClerkProvider
+      publishableKey={clerkPubKey}
+      proxyUrl={clerkProxyUrl}
+      appearance={clerkAppearance}
+      signInUrl={`${basePath}/sign-in`}
+      signUpUrl={`${basePath}/sign-up`}
+      localization={{
+        signIn: {
+          start: {
+            title: 'Welcome back',
+            subtitle: 'Sign in to access your IE operations workspace'
+          }
+        },
+        signUp: {
+          start: {
+            title: 'Create your IE workspace account',
+            subtitle: 'Secure your daily production control workflow'
+          }
+        }
+      }}
+      routerPush={to => setLocation(stripBase(to))}
+      routerReplace={to => setLocation(stripBase(to), { replace: true })}
+    >
+      <Switch>
+        {/* The optional wildcard is required for Clerk OAuth callback paths. */}
+        <Route path="/sign-in/*?" component={SignInPage} />
+        <Route path="/sign-up/*?" component={SignUpPage} />
+        <Route path="/app" component={AuthenticatedRoute} />
+        <Route path="/" component={HomeRedirect} />
+        <Route component={() => <Redirect to="/" />} />
+      </Switch>
+    </ClerkProvider>
+  );
+}
+
+export default function App() {
+  return (
+    <WouterRouter base={basePath}>
+      <ClerkProviderWithRoutes />
+    </WouterRouter>
   );
 }

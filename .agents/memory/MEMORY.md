@@ -1,0 +1,1 @@
+- [Authentication boundary](clerk-auth-decisions.md) — Clerk owns account sessions; operational data remains local until user-scoped persistence is added.
