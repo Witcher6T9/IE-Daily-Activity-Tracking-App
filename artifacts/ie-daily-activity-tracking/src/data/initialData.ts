@@ -14,9 +14,29 @@ import {
 
 export const DEFAULT_CUSTOMIZABLE_TIERS: TierDefinition[] = [
   {
+    id: 'tier_0',
+    level: 0,
+    name: 'admin',
+    shortCode: 'T0',
+    color: 'red',
+    description: 'Full System Management',
+    canManageTierLevels: [1, 2, 3, 4], // Customizable: can manage Tier 1, 2, 3, 4
+    allowSelfAssignment: true,
+    canCreateTodos: true,
+    canCreateSchedules: true,
+    canEditLineData: true,
+    canApproveChecklist: true,
+    canEdit: true,
+    canDelete: true,
+    canExport: true,
+    canManageLines: true,
+    canManageRoles: true,
+    systemRoleKey: 'admin'
+  },
+  {
     id: 'tier_1',
     level: 1,
-    name: 'IE Operations Manager',
+    name: 'IE Sr. Manager',
     shortCode: 'T1',
     color: 'violet',
     description: 'Head of Industrial Engineering & Strategic Operations',
@@ -31,15 +51,15 @@ export const DEFAULT_CUSTOMIZABLE_TIERS: TierDefinition[] = [
     canExport: true,
     canManageLines: true,
     canManageRoles: true,
-    systemRoleKey: 'admin'
+    systemRoleKey: 'hod'
   },
   {
     id: 'tier_2',
     level: 2,
-    name: 'Assistant IE Manager',
+    name: 'IE Manager',
     shortCode: 'T2',
     color: 'sky',
-    description: 'Floor IE Supervision & Production Line Balancing Lead',
+    description: 'Unit IE Supervision & Production Floor Balancing Lead',
     canManageTierLevels: [3, 4], // Customizable: can manage Tier 3, 4
     allowSelfAssignment: true,
     canCreateTodos: true,
@@ -56,10 +76,10 @@ export const DEFAULT_CUSTOMIZABLE_TIERS: TierDefinition[] = [
   {
     id: 'tier_3',
     level: 3,
-    name: 'Line IE Officer',
+    name: 'IE Assistant Manager',
     shortCode: 'T3',
     color: 'emerald',
-    description: 'Floor Execution, Cycle Time Study & Bottleneck Analysis',
+    description: 'Floor Execution, Production Line Balancing Lead',
     canManageTierLevels: [4], // Customizable: can manage Tier 4
     allowSelfAssignment: true,
     canCreateTodos: true,
@@ -69,14 +89,14 @@ export const DEFAULT_CUSTOMIZABLE_TIERS: TierDefinition[] = [
     canEdit: true,
     canDelete: false,
     canExport: true,
-    canManageLines: false,
+    canManageLines: true,
     canManageRoles: false,
-    systemRoleKey: 'ie_officer'
+    systemRoleKey: 'ie_asst_manager'
   },
   {
     id: 'tier_4',
     level: 4,
-    name: 'Work Study / Junior IE',
+    name: 'Jr / IE Executive',
     shortCode: 'T4',
     color: 'amber',
     description: 'Field Time Study Observer & Capacity Matrix Recorder',
@@ -91,7 +111,7 @@ export const DEFAULT_CUSTOMIZABLE_TIERS: TierDefinition[] = [
     canExport: true,
     canManageLines: false,
     canManageRoles: false,
-    systemRoleKey: 'junior_ie'
+    systemRoleKey: 'line_ie'
   }
 ];
 
@@ -99,11 +119,11 @@ export const DEFAULT_GOOGLE_USER: GoogleUserSession = {
   isSignedIn: true,
   userId: 'google_user_ashashikhossain77',
   email: 'ashashikhossain77@gmail.com',
-  name: 'Ashik Hossain',
+  name: 'Ashikur Rahman',
   role: 'admin',
-  tierId: 'tier_1',
-  department: 'Industrial Engineering & Operations',
-  employeeId: 'IE-8801',
+  tierId: 'tier_0',
+  department: 'Industrial Engineering & CIT',
+  employeeId: 'IE-12455',
   loginTime: new Date().toISOString(),
   authProvider: 'google',
   accessToken: 'ya29.a0AfH6SM_live_session_token_apparel_ie'
