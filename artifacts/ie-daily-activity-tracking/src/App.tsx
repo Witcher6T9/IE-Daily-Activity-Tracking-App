@@ -28,6 +28,7 @@ import { DEFAULT_STORE } from './data/initialData';
 import { Header } from './components/Header';
 import { BottomNav } from './components/BottomNav';
 import { DashboardView } from './components/DashboardView';
+import { LeanToolkitView } from './components/LeanToolkitView';
 import { ChecklistView } from './components/ChecklistView';
 import { LineDataView } from './components/LineDataView';
 import { MonthlyView } from './components/MonthlyView';
@@ -602,6 +603,8 @@ function AuthenticatedApp() {
             lastSyncTime={lastSyncTime}
           />
         )}
+
+        {currentPage === 'lean-toolkit' && <LeanToolkitView />}
 
         {currentPage === 'checklist' && (
           <ChecklistView

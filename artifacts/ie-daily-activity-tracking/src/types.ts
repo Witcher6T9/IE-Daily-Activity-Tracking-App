@@ -507,6 +507,7 @@ export interface AppStore {
 
 export type PageId =
   | 'dashboard'
+  | 'lean-toolkit'
   | 'checklist'
   | 'linedata'
   | 'line-data'

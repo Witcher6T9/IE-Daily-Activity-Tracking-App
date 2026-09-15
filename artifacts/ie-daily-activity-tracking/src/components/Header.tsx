@@ -24,7 +24,8 @@ import {
   CloudOff,
   Radio,
   Database,
-  Award
+  Award,
+  Wrench
 } from 'lucide-react';
 
 interface HeaderProps {
@@ -260,6 +261,21 @@ export const Header: React.FC<HeaderProps> = ({
           >
              <Award className="w-4 h-4 text-[#176f78]" />
             <span className="hidden md:inline">Monthly KPI</span>
+          </button>
+
+          {/* Lean methods quick link */}
+          <button
+            onClick={() => onNavigate('lean-toolkit')}
+            title="Lean Toolkit — floor methods and IE tools"
+            data-testid="button-open-lean-toolkit"
+            className={`hidden lg:flex h-9 px-3 rounded-xl border items-center gap-1.5 transition shadow-2xs text-xs font-bold ${
+              currentPage === 'lean-toolkit'
+                ? 'bg-[#176f78] text-white border-[#176f78] shadow-xs'
+                : 'border-[#d9d2c2] bg-[#fbfaf6] text-slate-700 hover:text-[#176f78] hover:border-[#8bb7b7]'
+            }`}
+          >
+            <Wrench className={`w-4 h-4 ${currentPage === 'lean-toolkit' ? 'text-white' : 'text-[#176f78]'}`} />
+            <span>Lean Toolkit</span>
           </button>
 
           {/* Enterprise Database & Storage Center */}

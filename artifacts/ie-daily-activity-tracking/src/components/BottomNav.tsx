@@ -1,6 +1,6 @@
 import React from 'react';
 import { PageId } from '../types';
-import { Home, CheckSquare, Layers, Calendar, BarChart3, ListTodo } from 'lucide-react';
+import { Home, CheckSquare, Layers, Calendar, BarChart3, ListTodo, Wrench } from 'lucide-react';
 
 interface BottomNavProps {
   currentPage: PageId;
@@ -13,6 +13,7 @@ export const BottomNav: React.FC<BottomNavProps> = ({ currentPage, onNavigate })
     { id: 'checklist', label: 'Daily', icon: CheckSquare },
     { id: 'todo-schedule', label: 'To-Do & Time', icon: ListTodo },
     { id: 'linedata', label: 'Line', icon: Layers },
+    { id: 'lean-toolkit', label: 'Lean', icon: Wrench },
     { id: 'monthly', label: 'Monthly', icon: Calendar },
     { id: 'reports', label: 'Reports', icon: BarChart3 }
   ];
@@ -27,6 +28,7 @@ export const BottomNav: React.FC<BottomNavProps> = ({ currentPage, onNavigate })
             <button
               key={item.id}
               onClick={() => onNavigate(item.id)}
+              data-testid={`button-nav-${item.id}`}
               className={`flex flex-col items-center justify-center gap-1 py-1.5 px-3 min-w-0 flex-1 rounded-xl transition-all ${
                 isActive
                    ? 'bg-[#dceceb] text-[#176f78] font-bold'
