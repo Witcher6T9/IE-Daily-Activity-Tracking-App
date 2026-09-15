@@ -18,7 +18,7 @@ export const DEFAULT_CUSTOMIZABLE_TIERS: TierDefinition[] = [
     level: 0,
     name: 'admin',
     shortCode: 'T0',
-    color: 'red',
+    color: 'brand',
     description: 'Full System Management',
     canManageTierLevels: [1, 2, 3, 4], // Customizable: can manage Tier 1, 2, 3, 4
     allowSelfAssignment: true,
@@ -195,67 +195,17 @@ export const DEFAULT_CUSTOM_COMPARTMENTS: CustomCompartment[] = [
     sectionType: 'sewing',
     ieManager: 'Shoriful Islam Rasel',
     lineCapacity: 17,
-    notes: 'Lines 1 to 17 dedicated to H&M and Zara programs'
+    notes: 'Lines 1 to 17 dedicated to H&M and C&A programs'
   },
   {
     id: 'comp_2',
-    name: 'Unit B (Woven & Windbreaker Cell)',
-    code: 'UNIT-B',
-    floorId: 'floor_01',
+    name: 'New Building (Jacket & Outerwear)',
+    code: 'New Building',
+    floorId: 'floor_04,floor_05,floor_06',
     sectionType: 'sewing',
-    supervisor: 'Sharmin Sultana',
-    lineCapacity: 4,
-    notes: 'Lines 20, 21 equipped with heavy-duty feed-off-arm machines'
-  },
-  {
-    id: 'comp_3',
-    name: 'Unit C (Specialty & Automation Bay)',
-    code: 'UNIT-C',
-    floorId: 'floor_01',
-    sectionType: 'sewing',
-    supervisor: 'Jahangir Alam',
-    lineCapacity: 4,
-    notes: 'Lines 22, 23 with robotic welt attachment'
-  },
-  {
-    id: 'comp_4',
-    name: 'Unit A (Dry-Ex Activewear Cell)',
-    code: 'UNIT-A',
-    floorId: 'floor_02',
-    sectionType: 'sewing',
-    supervisor: 'Faruk Hossain',
-    lineCapacity: 6,
-    notes: 'Lines 24, 25 Uniqlo performance lines with 4-needle flatlock'
-  },
-  {
-    id: 'comp_5',
-    name: 'Unit B (Kids & Knitwear Cell)',
-    code: 'UNIT-B',
-    floorId: 'floor_02',
-    sectionType: 'sewing',
-    supervisor: 'Bilkis Akter',
-    lineCapacity: 6,
-    notes: 'Gap Kids and organic babywear lines'
-  },
-  {
-    id: 'comp_6',
-    name: 'Ironing & Thread Trimming Section',
-    code: 'SEC-IRON',
-    floorId: 'floor_03',
-    sectionType: 'ironing',
-    supervisor: 'Sabbir Hossain',
-    lineCapacity: 8,
-    notes: 'Central steam iron stations with vacuum tables'
-  },
-  {
-    id: 'comp_7',
-    name: 'Technical Sampling Room & TR Bay',
-    code: 'BAY-TR',
-    floorId: 'floor_01',
-    sectionType: 'sampling',
-    supervisor: 'Sharmin Sultana',
-    lineCapacity: 2,
-    notes: 'Pilot production and technical runs before bulk launch'
+    ieManager: 'Tasnimal Reza',
+    lineCapacity: 17,
+    notes: 'Lines 18 to 34 dedicated to OTCF and C&A programs'
   }
 ];
 
@@ -345,8 +295,8 @@ export const BASE_PRESETS: Record<string, {
     hierarchyLevel: 0,
     canManageTiers: [1, 2, 3, 4]
   },
-  manager: {
-    label: 'Manager',
+  sr_manager: {
+    label: 'Sr Manager',
     color: 'violet',
     edit: true,
     checklist: true,
@@ -360,10 +310,10 @@ export const BASE_PRESETS: Record<string, {
     manageRoles: true,
     defaultLines: null,
     hierarchyLevel: 1,
-    canManageTiers: [2, 3] // Manager: manage and make to-do list & custom time schedule for 2 & 3
+    canManageTiers: [2, 3, 4] // Sr Manager: manage and make to-do list & custom time schedule for 2, 3 & 4
   },
-  assistant_manager: {
-    label: 'Assistant Manager',
+  manager: {
+    label: 'Manager',
     color: 'sky',
     edit: true,
     checklist: true,
@@ -371,37 +321,37 @@ export const BASE_PRESETS: Record<string, {
     reports: true,
     download: true,
     audit: true,
-    manageLines: false,
+    manageLines: true,
     export: true,
     delete: false,
     manageRoles: false,
     defaultLines: null,
     hierarchyLevel: 2,
-    canManageTiers: [3] // Assistant Manager: manage and make to-do list & custom time schedule for 3
+    canManageTiers: [3, 4] // Manager: manage and make to-do list & custom time schedule for 3 & 4
   },
-  officer: {
-    label: 'IE Officer',
+  assistant_manager: {
+    label: 'Assistant Manager',
     color: 'emerald',
     edit: true,
     checklist: true,
     linedata: true,
     reports: true,
     download: true,
-    audit: false,
+    audit: ture,
     manageLines: false,
-    export: false,
+    export: true,
     delete: false,
     manageRoles: false,
     defaultLines: null,
     hierarchyLevel: 3,
-    canManageTiers: [] // IE Officer: individual contributor
+    canManageTiers: [4] // Assistant Manager: manage and make to-do list & custom time schedule for 4
   },
-  operator: {
-    label: 'Operator',
+  line_ie: {
+    label: 'Line IE',
     color: 'slate',
     edit: false,
     checklist: false,
-    linedata: false,
+    linedata: true,
     reports: true,
     download: false,
     audit: false,
