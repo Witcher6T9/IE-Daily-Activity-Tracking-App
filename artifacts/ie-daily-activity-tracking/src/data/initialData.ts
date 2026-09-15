@@ -132,115 +132,70 @@ export const DEFAULT_GOOGLE_USER: GoogleUserSession = {
 export const DEFAULT_REGISTERED_USERS: RegisteredUser[] = [
   {
     id: 'user-google-1',
-    name: 'Engr. Ashikur Rahman',
+    name: 'MD. Ashikur Rahman',
     email: 'ashikur.rahman.0971@gmail.com',
-    employeeId: 'IE-9001',
-    department: 'Industrial Engineering & Plant Systems',
-    tierId: 'tier_1',
+    employeeId: 'IE-12455',
+    department: 'Industrial Engineering & CIT',
+    tierId: 'tier_0',
     role: 'admin',
     authProvider: 'google',
-    assignedLines: ['Line 18', 'Line 19', 'Line 20', 'Line 21', 'Line 22', 'Line 24'],
-    createdAt: '2026-01-15T08:00:00.000Z'
+    assignedLines: ['Line 18', 'Line 19'],
+    createdAt: '2023-07-15T08:00:00.000Z'
   },
   {
     id: 'user-google-2',
     name: 'Ashik Hossain',
     email: 'ashashikhossain77@gmail.com',
     employeeId: 'IE-8801',
-    department: 'Industrial Engineering & Operations',
-    tierId: 'tier_1',
+    department: 'Industrial Engineering & CIT',
+    tierId: 'tier_0',
     role: 'admin',
     authProvider: 'google',
-    assignedLines: ['Line 18', 'Line 19', 'Line 20', 'Line 21', 'Line 22', 'Line 24'],
-    createdAt: '2026-01-20T08:00:00.000Z'
+    assignedLines: ['Line 18', 'Line 19'],
+    createdAt: '2023-07-15T08:00:00.000Z'
   },
-  {
-    id: 'user-corp-3',
-    name: 'Farhana Chowdhury',
-    email: 'farhana.ie@apparelfactory.com',
-    employeeId: 'IE-7740',
-    department: 'Sewing Production Floor A',
-    tierId: 'tier_2',
-    role: 'manager',
-    authProvider: 'corporate_email',
-    assignedLines: ['Line 18', 'Line 19', 'Line 20'],
-    createdAt: '2026-02-15T08:00:00.000Z'
-  },
-  {
-    id: 'user-corp-4',
-    name: 'Mahmudul Hoque',
-    email: 'mahmudul.ie@apparelfactory.com',
-    employeeId: 'IE-6520',
-    department: 'Line Balancing & Work Study Cell',
-    tierId: 'tier_3',
-    role: 'ie_officer',
-    authProvider: 'corporate_email',
-    assignedLines: ['Line 18', 'Line 19', 'Line 20'],
-    createdAt: '2026-03-01T08:00:00.000Z'
-  },
-  {
-    id: 'user-corp-5',
-    name: 'Sharmin Sultana',
-    email: 'sharmin.ie@apparelfactory.com',
-    employeeId: 'IE-6525',
-    department: 'Lean Manufacturing & Kaizen',
-    tierId: 'tier_3',
-    role: 'ie_officer',
-    authProvider: 'corporate_email',
-    assignedLines: ['Line 21', 'Line 22', 'Line 24'],
-    createdAt: '2026-03-10T08:00:00.000Z'
-  }
 ];
 
 export const DEFAULT_CUSTOM_FLOORS: CustomFloor[] = [
   {
-    id: 'floor_01',
-    name: 'Floor 01 (Ground Floor)',
-    code: 'FL-01',
-    building: 'Main Complex Unit 1',
-    incharge: 'Engr. Rezaul Karim',
-    lineCapacity: 10,
-    notes: 'High efficiency knitwear, basic crewneck & polo lines'
+    id: 'floor_04',
+    name: 'Karatoya Floor (Sewing Floor)',
+    code: 'KTF',
+    building: 'New Building',
+    ieAsstManager: 'Shaheen Alom',
+    lineCapacity: 06,
+    notes: 'Medium efficiency Outerwear, Jacket lines'
   },
   {
-    id: 'floor_02',
-    name: 'Floor 02 (Sewing Hall)',
-    code: 'FL-02',
-    building: 'Main Complex Unit 1',
-    incharge: 'Engr. Tanvir Hasan',
-    lineCapacity: 12,
-    notes: 'Performance activewear, dry-ex, and specialized seams'
+    id: 'floor_05',
+    name: 'Shitalakhaya Floor (Sewing Floor)',
+    code: 'SF',
+    building: 'New Building',
+    ieAsstManager: 'Mehedi',
+    lineCapacity: 06,
+    notes: 'Medium efficiency Outerwear, Jacket lines'
   },
   {
-    id: 'floor_03',
-    name: 'Floor 03 (Finishing & Packing)',
-    code: 'FL-03',
-    building: 'Annex Building B',
-    incharge: 'Farhana Chowdhury',
-    lineCapacity: 8,
-    notes: 'Automated steam pressing, barcode scan & carton packaging'
-  },
-  {
-    id: 'floor_cutting',
-    name: 'Cutting Floor & Spreading Bay',
-    code: 'FL-CUT',
-    building: 'Raw Material Wing',
-    incharge: 'Kamal Hossain',
-    lineCapacity: 4,
-    notes: 'CAD multi-ply auto cutters & laser precision spreading'
+    id: 'floor_06',
+    name: 'Turag Floor (Sewing Floor)',
+    code: 'TF',
+    building: 'New Building',
+    ieAsstManager: 'Afjal Hossain',
+    lineCapacity: 06,
+    notes: 'Medium efficiency Outerwear, Jacket lines'
   }
 ];
 
 export const DEFAULT_CUSTOM_COMPARTMENTS: CustomCompartment[] = [
   {
     id: 'comp_1',
-    name: 'Unit A (Polo & T-Shirt Bay)',
-    code: 'UNIT-A',
-    floorId: 'floor_01',
+    name: 'Old Building (Jacket & Outerwear)',
+    code: 'Old Building',
+    floorId: 'floor_01,floor_02,floor_03',
     sectionType: 'sewing',
-    supervisor: 'Mahmudul Hoque',
-    lineCapacity: 4,
-    notes: 'Lines 18, 19 dedicated to H&M and Zara programs'
+    ieManager: 'Shoriful Islam Rasel',
+    lineCapacity: 17,
+    notes: 'Lines 1 to 17 dedicated to H&M and Zara programs'
   },
   {
     id: 'comp_2',
